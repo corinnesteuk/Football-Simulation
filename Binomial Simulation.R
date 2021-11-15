@@ -19,13 +19,61 @@ cdf.sim <-function(F, ...){
 #RUN PLAY
 function2 <- function()
   #randomly sample from normal distribution to return yardage of run
-
-##PASS PLAY
-function3 <- function()
+  yardage <- rnorm(1, mean = 3, sd = )
+  i = 0
+  n = 10
+  while (i<=n){
+  if ((yardage > 3) || (yardage < 75)){
+    break
+  }else{i = i+1}
+  }
+  if(complete_check ==1){
+    d_yrd <- d_yrd + yardage
+    t_yrd <- t_yrd + yardage
+    t_down <- t_down + 1
+    d_cnt <- d_cnt +1
+  }else{
+    t_down <- t_down + 1
+    d_cnt <- d_cnt +1
+  }
+  #Call function4: First Down Check
+  #Call function5: Touchdown Check
+   ##END OF FUNCTION2
+  
+  ##PASS PLAY
+function3 <- function(){
   #Randomly sample numbers from log distribution for yardage
-  #each number will have a normal distribution of probabilities
-  #Put the probabilities in a Bernoulli to see if pass was completed
-
+  i = 0
+  n = 10
+  while (i<=n){
+  yardage <- rlnorm(1, mean = log(10), sd = 1)
+  yardage <- round(yardage)
+  print(yardage)
+  if ((yardage > 3) && (yardage < 75)){ 
+    break
+  }else{i = i+1}
+  }
+  #Given his pass is of length 'yardage,' 
+  #what is the probability that he can complete a pass of this length?
+  p_comp_fn <- function(yardage){
+    m <- .97
+    p_comp <- m^(yardage)
+    return(p_comp)
+  }
+  p_comp <- p_comp_fn(yardage)
+  complete_check <- rbern(1,prob = p_comp)
+  if(complete_check ==1){
+   d_yrd <- d_yrd + yardage
+   t_yrd <- t_yrd + yardage
+   t_down <- t_down + 1
+   d_cnt <- d_cnt +1
+  }else{
+    t_down <- t_down + 1
+    d_cnt <- d_cnt +1
+  }
+  #Call function4: First Down Check
+  #Call function5: Touchdown Check
+ }##END OF FUNCTION3
 
 ##Beginning of Play Simulation
 #Choose either pass or run play
