@@ -16,6 +16,17 @@ cdf.sim <-function(F, ...){
   return(X)
 }
 
+#RUN PLAY
+function2 <- function()
+  #randomly sample from normal distribution to return yardage of run
+
+##PASS PLAY
+function3 <- function()
+  #Randomly sample numbers from log distribution for yardage
+  #each number will have a normal distribution of probabilities
+  #Put the probabilities in a Bernoulli to see if pass was completed
+
+
 ##Beginning of Play Simulation
 #Choose either pass or run play
 function1 <- function(){
