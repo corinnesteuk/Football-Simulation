@@ -1,19 +1,14 @@
-
-binom.cdf <- function(x, n, p){
-  Fx <0
-  for (i in 0:x){
-    Fx <- Fx + choose(n, i)*p^i*(1-p)^(n-1)
+#FIRST DOWN CHECK
+#After each play, we need to increment the down they are on, check to see if they have reached a first down, 
+#and see if they have surpassed 4th down without completing 10 yards
+function4 <- function()
+  if (tot_yrd >= 75){
+    return(TRUE)
+  }else if(d_yrd >= 10){
+    d_cnt <-1
   }
-return (Fx)
-}
-
-cdf.sim <-function(F, ...){
-  X <-0
-  U <- runif(1)
-  while(F(X, ...)<U){
-    X <- X+1
-  }
-  return(X)
+  if (d_cnt ==4){
+    return(FALSE)
 }
 
 #RUN PLAY
@@ -29,11 +24,11 @@ function2 <- function()
   }
   if(complete_check ==1){
     d_yrd <- d_yrd + yardage
-    t_yrd <- t_yrd + yardage
-    t_down <- t_down + 1
+    tot_yrd <- tot_yrd + yardage
+    tot_down <- tot_down + 1
     d_cnt <- d_cnt +1
   }else{
-    t_down <- t_down + 1
+    tot_down <- tot_down + 1
     d_cnt <- d_cnt +1
   }
   #Call function4: First Down Check
@@ -49,7 +44,7 @@ function3 <- function(){
   yardage <- rlnorm(1, mean = log(10), sd = 1)
   yardage <- round(yardage)
   print(yardage)
-  if ((yardage > 3) && (yardage < 75)){ 
+  if ((yardage > 3) & (yardage < 75)){ 
     break
   }else{i = i+1}
   }
@@ -64,18 +59,27 @@ function3 <- function(){
   complete_check <- rbern(1,prob = p_comp)
   if(complete_check ==1){
    d_yrd <- d_yrd + yardage
-   t_yrd <- t_yrd + yardage
-   t_down <- t_down + 1
+   tot_yrd <- tot_yrd + yardage
+   tot_down <- tot_down + 1
    d_cnt <- d_cnt +1
   }else{
-    t_down <- t_down + 1
+    tot_down <- tot_down + 1
     d_cnt <- d_cnt +1
   }
   #Call function4: First Down Check
   #Call function5: Touchdown Check
  }##END OF FUNCTION3
 
+
+
 ##Beginning of Play Simulation
+# Instantiating Downs & Counts
+d_yrd <- 0
+t_yrd <- 0
+t_down <- 1
+d_cnt <- 1
+
+#Create loop of n simulations
 #Choose either pass or run play
 function1 <- function(){
   binom.sim <- function(n, p){
