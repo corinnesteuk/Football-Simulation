@@ -1,4 +1,5 @@
 library(Rlab)
+
 #FIRST DOWN CHECK
 #After each play, we need to increment the down they are on, check to see if they have reached a first down, 
 #and see if they have surpassed 4th down without completing 10 yards
@@ -23,37 +24,30 @@ fourthdown_check <- function(d_cnt){
   }
 }
 
-d_cnt <- firstdown_check(d_yrd, d_cnt)[1]
-d_yrd <- firstdown_check(d_yrd, d_cnt)[2]
 #RUN PLAY
 run_play <- function(){
   #randomly sample from normal distribution to return yardage of run
   yardage <- round(rnorm(1, mean = 3, sd = 3))
-  print(yardage)
   d_yrd <- d_yrd + yardage
   tot_yrd <- tot_yrd + yardage
   tot_down <- tot_down + 1
   d_cnt <- d_cnt +1
   
+  #checking if we have reached a touchdown, first down, or ran out of plays
   touchdown_check(tot_yrd)
   d_cnt <- firstdown_check(d_yrd, d_cnt)[1]
   d_yrd <- firstdown_check(d_yrd, d_cnt)[2]
   fourthdown_check(d_cnt)
 }
-   ##END OF FUNCTION2
+   ##END OF FUNCTION RUN PLAY
   
   ##PASS PLAY
 pass_play <- function(){
   #Randomly sample numbers from log distribution for yardage
-  i = 0
-  n = 10
-  while (i<=n){
+  yardage <- 0
+  while ((yardage < 3) | (yardage > 75)){
   yardage <- rlnorm(1, mean = log(10), sd = 1)
   yardage <- round(yardage)
-  print(yardage)
-  if ((yardage > 3) & (yardage < 75)){ 
-    break
-  }else{i = i+1}
   }
   #Given his pass is of length 'yardage,' 
   #what is the probability that he can complete a pass of this length?
@@ -74,12 +68,13 @@ pass_play <- function(){
     tot_down <- tot_down + 1
     d_cnt <- d_cnt +1
   }
+  #checking if we have reached a touchdown, first down, or ran out of plays
   touchdown_check(tot_yrd)
   d_cnt <- firstdown_check(d_yrd, d_cnt)[1]
   d_yrd <- firstdown_check(d_yrd, d_cnt)[2]
   fourthdown_check(d_cnt)
 }
- ##END OF FUNCTION3
+ ##END OF FUNCTION PASS PLAY
 
 
 
@@ -110,4 +105,5 @@ while (j<= nsim){
   j = j+1
 }
   
-
+# should we run this until play_result == TRUE meaning we've reached a touchdown and then see what j we
+# are on (that would also be a count of the number of plays)
