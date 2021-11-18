@@ -1,0 +1,131 @@
+---
+title: "F-Ball Simulation"
+author: "Corinne Steuk"
+date: "11/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Rlab)
+```
+
+## Instantiating Counts 
+```{r}
+d_yrd <- 0
+tot_yrd <- 0
+tot_down <- 0
+d_cnt <- 1
+```
+
+## Down Check 
+
+**Functions: touchdown_check ; firstdown_check ; fourthdown_check**
+
+These functions will be called within both the pass and run play functions to see if after the given play, the team has either reached a touch down, reached a first down, or ran out of downs before reaching 10 yards.
+
+```{r}
+touchdown_check <- function(tot_yrd){
+  if (tot_yrd >= 75){
+    return(TRUE)
+  }}
+firstdown_check <- function(d_yrd, d_cnt){
+  if(d_yrd >= 10){
+    d_cnt <- 1
+    d_yrd <- 0
+    down_info <- c(d_cnt, d_yrd)
+    return(down_info)
+  }else{
+    down_info <- c(d_cnt, d_yrd)
+    return(down_info)
+  }
+}
+fourthdown_check <- function(d_cnt){
+  if (d_cnt > 4){
+    return(FALSE)
+  }
+}
+```
+
+## Run Play
+
+If the play decision is a run play, this function will call and randomly choose a number for the yardage from a normal distribution. It will then call the check functions instantiated above.
+
+```{r}
+run_play <- function(){
+  #randomly sample from normal distribution to return yardage of run
+  yardage <- round(rnorm(1, mean = 3, sd = 3))
+  d_yrd <- d_yrd + yardage
+  tot_yrd <- tot_yrd + yardage
+  tot_down <- tot_down + 1
+  d_cnt <- d_cnt +1
+  
+  #checking if we have reached a touchdown, first down, or ran out of plays
+  touchdown_check(tot_yrd)
+  d_cnt <- firstdown_check(d_yrd, d_cnt)[1]
+  d_yrd <- firstdown_check(d_yrd, d_cnt)[2]
+  fourthdown_check(d_cnt)
+}
+```
+
+## Pass Play
+
+If the play decision is a pass play, this function will call and randomly choose a number for the yardage from a log-normal distribution. Given this number, we assign an exponential function to determine the probability this will be a completed pass (since longer passes have a lower probability of being completed). This probability is the parameter in a Bernoulli distribution that we use to determine if the pass was completed or not. It will then call the check functions instantiated above. 
+
+```{r}
+pass_play <- function(){
+  #Randomly sample numbers from log distribution for yardage
+  yardage <- 0
+  while ((yardage < 3) | (yardage > 75)){
+  yardage <- rlnorm(1, mean = log(10), sd = 1)
+  yardage <- round(yardage)
+  }
+  #Given his pass is of length 'yardage,' 
+  #what is the probability that he can complete a pass of this length?
+  p_comp_fn <- function(yardage){
+    m <- .97
+    p_comp <- m^(yardage)
+    return(p_comp)
+  }
+  p_comp <- p_comp_fn(yardage)
+  complete_check <- rbern(1, prob = p_comp)
+  complete_check
+  if(complete_check ==1){
+   d_yrd <- d_yrd + yardage
+   tot_yrd <- tot_yrd + yardage
+   tot_down <- tot_down + 1
+   d_cnt <- d_cnt +1
+  }else{
+    tot_down <- tot_down + 1
+    d_cnt <- d_cnt +1
+  }
+  #checking if we have reached a touchdown, first down, or ran out of plays
+  touchdown_check(tot_yrd)
+  d_cnt <- firstdown_check(d_yrd, d_cnt)[1]
+  d_yrd <- firstdown_check(d_yrd, d_cnt)[2]
+  fourthdown_check(d_cnt)
+}
+
+```
+
+## Simulation
+```{r}
+nsim <- 10000
+j <- 0
+while (j<= nsim){
+  decision <- rbern(1, .567)
+ if (decision ==1L){
+   play_result <- run_play()
+   
+ }else{
+   play_result <- pass_play()
+ }
+ # if (play_result == TRUE){
+ #   break
+ # }else if (play_result ==FALSE){
+ #   break
+ #}else{j =j+1}
+  j = j+1
+}
+
+```
