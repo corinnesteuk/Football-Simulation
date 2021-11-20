@@ -18,8 +18,7 @@ play <- function(){
  }else{
    yardage <- 0
    while ((yardage < 3) | (yardage > 75)){
-     yardage <- rlnorm(1, mean = log(10), sd = 1)
-     yardage <- round(yardage)
+     yardage <- round(rlnorm(1, mean = log(10), sd = 1))
    }
    #Given his pass is of length 'yardage,' 
    #what is the probability that he can complete a pass of this length?
