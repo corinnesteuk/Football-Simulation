@@ -73,8 +73,8 @@ if (state$totyards >= 75 ){
 return(state)}
 ```
 
-## Probability of Success
-**Out of 10,000 drives, what is the probability they will end in a touchdown?**
+## Probability of Failure
+**Out of 10,000 drives, what is the probability they will end without getting a touchdown?**
 
 ```{r}
 nsim <- 10000
@@ -96,7 +96,7 @@ prob_failure
 
 ## Decision Distribution
 
-**Sample from a Bernoulli Distribution with probability of that a decsiion is a run play (==1) is .567**
+**Sample from a Bernoulli Distribution with probability of that a decision is a run play (==1) is .567**
 
 ```{r}
 
@@ -111,6 +111,7 @@ hist(replicate(1000, rbern(1, .567)), main = ' Histogram of Decision Bermoulli',
 x <- seq(1, 1000, 1)
 y <- replicate(1000, round(rnorm(1, mean = 3, sd = 3)))
 plot(x, y, main = 'Spread of Possible Run Yardages', ylab = 'Yardage', xlab = 'Play Number')
+abline(h = 3, col = 'red')
 
 i <- seq(-10, 10, .01)
 #plot(dnorm(i, mean = 3, sd = 3), main = "Run Play Normal PDF", ylab = 'Density')
@@ -136,7 +137,7 @@ abline(v = log(10), col = 'red')
 
 x_comp <- seq(3, 75, 1)
 y_comp <- .97^(x_comp)
-plot(x_comp, y_comp, main = "Probability of Completing a Pass Given its Length", xlab = "Yardage", ylab = "Completion Probability")
+plot(x_comp, y_comp, type = 'l', main = "Probability of Completing a Pass Given its Length", xlab = "Yardage", ylab = "Completion Probability")
 
 ```
 
