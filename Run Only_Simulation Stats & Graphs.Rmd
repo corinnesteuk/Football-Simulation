@@ -1,5 +1,5 @@
 ---
-title: "Run only Simulation Stats"
+title: "Run Only Simulation Stats"
 author: "Jocelyn Garcia"
 date: "11/22/2021"
 output: html_document
@@ -24,10 +24,10 @@ state$totdowns <- 0
 ```{r}
 play <- function(){
   decision <- rbern(1, .567)
- if (decision == 1L){
+ if (decision ==1L){
    yardage <- round(rnorm(1, mean = 3, sd = 3))
    return(yardage)
- }else{ 
+ }else{
      yardage <- 0 
      return (yardage)
    }
@@ -60,8 +60,8 @@ if (state$totyards >= 75 ){
 return(state)}
 ```
 
-## Probability of Failure
-**Out of 10,000 drives, what is the probability they will end without getting a touchdown?**
+## Probability of Success
+**Out of 10,000 drives, what is the probability they will end in a touchdown?**
 
 ```{r}
 nsim <- 10000
@@ -71,62 +71,19 @@ for (i in 1:nsim){
   j <- drive()
   d[i] <- j$down
 }
-no_td = 0
+td = 0
 for (i in d){
-  if (i == 5){
-    no_td = no_td +1
+  if (i <= 4){
+    td = td +1
   }
 }
-prob_failure <- no_td/length(d)
-prob_failure
-```
-
-## Decision Distribution
-
-**Sample from a Bernoulli Distribution with probability of that a decision is a run play (==1) is .567**
-
-```{r}
-
-hist(replicate(1000, rbern(1, .567)), main = ' Histogram of Decision Bermoulli', xlab = 'Decision (1 == Run Play)')
-
-```
-
-## Run Play Distribution
-**The run play yardage is sampled from a normal distribution with mean 3 and standard deviation 3 (numbers are rounded to the nearest whole number)**
-
-```{r}
-x <- seq(1, 1000, 1)
-y <- replicate(1000, round(rnorm(1, mean = 3, sd = 3)))
-plot(x, y, main = 'Spread of Possible Run Yardages', ylab = 'Yardage', xlab = 'Play Number')
-abline(h = 3, col = 'red')
-
-i <- seq(-10, 10, .01)
-#plot(dnorm(i, mean = 3, sd = 3), main = "Run Play Normal PDF", ylab = 'Density')
-plot(i,dnorm(i, mean = 3, sd = 3), type = "l", main = "Run Play Normal PDF", lwd = 2, xlab = "", ylab = 'Density')
-abline(v = 3, col = 'red')
+prob_td <- td/length(d)
+prob_td
 ```
 
 
-## Pass Play Distribution
-**The pass play yardage is sampled from a log normal distribution with mean log(10) and standard deviation 1 (numbers are rounded to the nearest whole number)**
-**The yardage is then the exponent variable in an exponential distibutiion of find probability of success. This porbability is used as the parameter in a Bernoulli PDF to find whether the pass was completed or not**
-```{r}
 
-x <- seq(1, 1000, 1)
-y <- replicate(length(x), rlnorm(1, mean = log(10), sd = 1))
-plot(x, y, main = 'Spread of Possible Pass Yardages', ylab = 'Yardage', xlab = 'Play Number', ylim = c(0, 75))
-abline(h = 75, col = 'blue')
-abline(h = 3, col = 'blue')
 
-i <- seq(0, 75, .1)
-plot(i,dlnorm(i, mean = log(10), sd = 1), type = "l", main = "Pass Play Log - Normal PDF", lwd = 2, xlab = "", ylab = 'Density', xlim = c(0, 70))
-abline(v = log(10), col = 'red')
-
-x_comp <- seq(3, 75, 1)
-y_comp <- .97^(x_comp)
-plot(x_comp, y_comp, type = 'l', main = "Probability of Completing a Pass Given its Length", xlab = "Yardage", ylab = "Completion Probability")
-
-```
 
 
 
