@@ -73,8 +73,8 @@ if (state$totyards >= 75 ){
 return(state)}
 ```
 
-## Probability of Failure
-**Out of 10,000 drives, what is the probability they will end without getting a touchdown?**
+## Probability of Success
+**Out of 10,000 drives, what is the probability they will end in a touchdown?**
 
 ```{r}
 nsim <- 10000
@@ -84,14 +84,14 @@ for (i in 1:nsim){
   j <- drive()
   d[i] <- j$down
 }
-no_td = 0
+td = 0
 for (i in d){
-  if (i == 5){
-    no_td = no_td +1
+  if (i <= 4){
+    td = td +1
   }
 }
-prob_failure <- no_td/length(d)
-prob_failure
+prob_td <- td/length(d)
+prob_td
 ```
 
 ## Decision Distribution
