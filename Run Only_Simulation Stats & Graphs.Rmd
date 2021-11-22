@@ -1,0 +1,91 @@
+---
+title: "Run Only Simulation Stats"
+author: "Jocelyn Garcia"
+date: "11/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Rlab)
+```
+
+## Instantiation
+
+```{r}
+state <- list()
+state$down <- 1 
+state$downyards <- 0 
+state$totyards <- 0 
+state$totdowns <- 0 
+```
+
+## Function
+```{r}
+play <- function(){
+  decision <- rbern(1, .567)
+ if (decision ==1L){
+   yardage <- round(rnorm(1, mean = 3, sd = 3))
+   return(yardage)
+ }else{
+     yardage <- 0 
+     return (yardage)
+   }
+ }
+
+drive <-function(){
+state$down <- 1 
+state$downyards <- 0 
+state$totyards <- 0 
+state$totdowns <- 0 
+#while total yards is less than 75 and down is less than 5
+while ((state$totyards < 75) & (state$down <= 4)){
+yards <- play()
+
+state$down <- state$down +1 
+state$downyards <-  state$downyards + yards
+state$totyards <- state$totyards + yards
+state$totdowns <-  state$totdowns + 1
+
+if (state$totyards >= 75 ){
+  break
+}else if(state$downyards >= 10){
+  state$down <- 1
+  state$downyards <- 0
+}else if(state$down > 4){
+  break
+}
+
+}
+return(state)}
+```
+
+## Probability of Success
+**Out of 10,000 drives, what is the probability they will end in a touchdown?**
+
+```{r}
+nsim <- 10000
+d <- c(replicate(nsim, 0))
+# results <- list(replicate(10, drive()))
+for (i in 1:nsim){
+  j <- drive()
+  d[i] <- j$down
+}
+td = 0
+for (i in d){
+  if (i <= 4){
+    td = td +1
+  }
+}
+prob_td <- td/length(d)
+prob_td
+```
+
+
+
+
+
+
+
+
+
