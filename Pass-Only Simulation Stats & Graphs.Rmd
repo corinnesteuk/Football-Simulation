@@ -98,38 +98,6 @@ plays_cnt/length(t_plays)
 
 ```
 
-## Decision Distribution
-
-**Sample from a Bernoulli Distribution with probability of that a decision is a run play (==1) is .567**
-
-```{r}
-
-hist(replicate(1000, rbern(1, .567)), main = ' Histogram of Decision Bermoulli', xlab = 'Decision (1 == Run Play)')
-
-```
-
-
-## Pass Play Distribution
-**The pass play yardage is sampled from a log normal distribution with mean log(10) and standard deviation 1 (numbers are rounded to the nearest whole number)**
-**The yardage is then the exponent variable in an exponential distibutiion of find probability of success. This porbability is used as the parameter in a Bernoulli PDF to find whether the pass was completed or not**
-```{r}
-
-x <- seq(1, 1000, 1)
-y <- replicate(length(x), rlnorm(1, mean = log(10), sd = 1))
-plot(x, y, main = 'Spread of Possible Pass Yardages', ylab = 'Yardage', xlab = 'Play Number', ylim = c(0, 75))
-abline(h = 75, col = 'blue')
-abline(h = 3, col = 'blue')
-
-i <- seq(0, 75, .1)
-plot(i,dlnorm(i, mean = log(10), sd = 1), type = "l", main = "Pass Play Log - Normal PDF", lwd = 2, xlab = "", ylab = 'Density', xlim = c(0, 70))
-abline(v = log(10), col = 'red')
-
-x_comp <- seq(3, 75, 1)
-y_comp <- .97^(x_comp)
-plot(x_comp, y_comp, type = 'l', main = "Probability of Completing a Pass Given its Length", xlab = "Yardage", ylab = "Completion Probability")
-
-```
-
 
 
 
