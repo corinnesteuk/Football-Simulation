@@ -1,7 +1,7 @@
 ---
 title: "Original Simulation Stats"
-author: "Corinne Steuk"
-date: "11/20/2021"
+author: "Corinne Steuk and Jocelyn Garcia"
+date: "12/13/2021"
 output: html_document
 ---
 
@@ -9,6 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(Rlab)
 ```
+
+##Introduction 
+
+The game of football is an interesting, yet complex game to assess through statistics. Probability and variable distributions are required to represent every aspect of the game. Football consists of two teams with eleven players on the field at a time. The objective is for the offense (the team in possession of the ball) to run a series of plays to reach the endzone for a touchdown. The offense not only has to reach the endzone, but they also have to travel at least ten yards every four plays (to reach a “first down”) during their drive. The term “drive” refers to the series of plays while the offense has the ball. A drive results in either a success (touchdown) or failure (they did not surpass ten yards in four plays). For the scope of this project, the focus narrows only on the offensives drives in two main aspects. First, the play decision probability (run or pass) by the quarterback or offensive coordinator and its affect to the outcome of both the play and the drive. More specifically, the analysis regards how the parameters of the distribution representing the decision of play effects the success of this play (the yardage gained or lost). Second, the talent of the team to carry out either the run or the pass plays and gain the greatest number of yards. This is represented by a change of the parameters in the run and pass random variable distributions. An in-depth analysis for both of these observations factors is explain in the methods and results below. 
+
+Certain assumptions are established prior to the simulation to simplify and maintain consistency in the project. First, all drives start at the 25-yard-line as a result of a touchback. Therefore, the offense has to gain at least 75 yards to reach a touchdown. Next, the offense will get four downs (or attempts) to reach the first down. While most of the time the offense will choose to punt the ball to the other team on the last down, this assumption allows for a drive to end in a measurable failure. There is also the possibility that if the offense is on the fourth down and within a certain range of the endzone, they will choose to kick a field goal for half the points of a touchdown. Since the project focuses on touchdowns, the assumption that there are no field goals maximizes the opportunity for the team to reach a touchdown. Finally, the offense could unexpectedly lose possession of the ball during the drive. This could be caused by either a fumble (an offensive player drops the ball, and the defense takes it) or an interception (a pass is caught by the defense). The project does not account for the probability of a fumble or interception, but this (and all the assumptions mentioned) could be considered for future work on this simulation.  
+
+##Methods
+
+For our simulation, we first created a list called state with four elements: down, downyards, totyards, and totdowns for the current down before the next first down (1- 4 rotation), the number of yards gained or lost in the current down before the next first down, a running total of yards gained or lost in the play (all the downs), and a running total of the number of plays (total number of downs), respectively. Each of these elements is initially set to 0 except for down, as a team cannot be on down 0.  
+
+The function titled “play” determines the number of yards the team will gain or lose in a given play. This function begins with the decision to perform a running or passing play, which is determined by a Bernoulli distribution with a probability of .567 for a running play Figure.1. If this distribution returns a 1, the decision is a running play, and a yardage is returned from a normal distribution with mean 3 and standard deviation 3 Figure.2a-b. In a running play, a team may gain or lose yardage. This is represented by a normal distribution with a mean and standard deviation set to three. After this play is chosen and the yardage is obtained, the “state” list is updated accordingly and checked to see if there is a touchdown or if the team runs out of downs. 
+
+If the decision is a passing play - that is, the Bernoulli distribution returns a 0 - a yardage is returned from a log normal distribution with mean log (10) and standard deviation 1 Figure.3a. For a passing play, yardage will always result in a positive number between 3 and 75. Given the yardage is within this range, a probability of success is then assigned to the pass, using an exponential function. This uses .97 as the base and the random variable yardage as the exponent. This makes smaller passes very likely and longer passes less likely, as shown in Figure.3c. We created a variable called “complete_check” to determine the result of the passing play from a Bernoulli distribution with the resulting probability of the exponential function. If “complete_check” returns a 1, then the passing play is successful, and the yardage is returned from the play function. If “complete_check” returns a 0, the passing play is unsuccessful, and the returned yardage is 0.  
+
+A function titled “drive” encompasses a simulation of a series of plays until a success (touchdown) or failure (ran out of downs before a first down). Drive keeps track of the “state” elements and changes them as the drive continues. Drive will run until there is a success or failure, continuing as long as the downs count is less than or equal to 4 and the total yards are less than 75. The results of the play function are assigned to a variable named “yards,” which are added to the state elements “downyards” and “totyards” as the drive continues. Drive stops under 2 conditions only: 1) a touchdown, as in total yards reach or pass 75, or 2) a failure, as in 10 yards are not reached in the rotation of four plays. The project is the replication of the “drive” function many times for data analysis of the final results.  
+
+We decided to change various aspects of our project to see how the outcomes are affected. First, we simulated only running plays to see how the probability of a touchdown changes, and then did the same for passing plays. While unrealistic of a game of football, we were simply interested in the significance of one play over the other in the project. Next, we changed the probability of the Bernoulli distribution to different numbers to see how that influenced the probability of a touchdown.  
 
 ## Results
 To begin, we sampled from a Bernoulli Distribution with probability of that a decision is a run play (==1) is .567.The decision to choose a run play follows a Bernoulli distribution with the probability of choosing a run set to .567. Figure.1 below confirms that a run play will be chosen slightly more times than a pass play.
@@ -20,7 +38,7 @@ hist(replicate(1000, rbern(1, .567)), main = ' Figure.1 : Histogram of Decision 
 ```
 
 The run play yardage is sampled from a normal distribution with mean 3 and standard deviation 3 (numbers are rounded to the nearest whole number)
-Figure.2a shows the spread of the random sample data points. Figure.3b shows the pdf of the normal distribution given the chosen parameters.
+Figure.2a shows the spread of the random sample data points. Figure.2b shows the pdf of the normal distribution given the chosen parameters.
 ```{r, echo = FALSE}
 #Figure.2a
 x <- seq(1, 1000, 1)
@@ -56,7 +74,7 @@ plot(x_comp, y_comp, type = 'l', main = "Figure.3c : Probability of Completing a
 
 ```
 
-Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .56. If a drive results in a touchdown, the average total number of plays it took is about 5.37. In all tests, the number of simulations is set equal to 10,000. 
+Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .56. If a drive results in a touchdown, the average total number of plays it took is about 5.37. In all tests, the number of simulations is set equal to 10,000.  
 ```{r, echo = FALSE}
 state <- list()
 state$down <- 1 
