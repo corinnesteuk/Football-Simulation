@@ -112,7 +112,7 @@ plot(
 
 ```
 
-Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .56. If a drive results in a touchdown, the average total number of plays it took is about 5.37. In all tests, the number of simulations is set equal to 10,000. 
+Using the original distributions and parameters, the probability to score a touchdown on a given drive is approximately .35. If a drive results in a touchdown, the average total number of plays it took is approximately 4.3. In all tests, the number of simulations is set equal to 10,000. 
 
 ```{r, echo = FALSE}
 state <- list()
@@ -201,7 +201,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. The first number below is the probability of a touchdown with only pass plays, the second is the average number of plays it takes to get a touchdown.
+The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. The first number below is the probability of a touchdown with only pass plays, which is approximately 0.55. The second number below is the average number of plays it takes to get a touchdown, which is approximately 5.4
 
 ```{r, echo = FALSE}
 play <- function() {
@@ -278,7 +278,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. The first number below is the probability of a touchdown with only run plays, the second is the average number of plays it takes to get a touchdown.
+The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. The first number below is the probability of a touchdown with only run plays, which is approximately 0.09. The second number below is the average number of plays it takes to get a touchdown, which is approximately 1.8.
 ```{r, echo = FALSE}
 play_run <- function() {
    yardage <- round(rnorm(1, mean = 3, sd = 3))
@@ -337,13 +337,6 @@ plays_cnt / length(t_plays)
 ```
 
 The final change will revert back to using a Bernoulli distribution to select each play in the drive; however, we will weigh this distribution more unevenly than the original. Before, we used a .567 probability of choosing a run play (this number is based of background research on the average)
-
-
-
-
-
-
-
 
 
 
