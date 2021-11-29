@@ -56,7 +56,7 @@ plot(x_comp, y_comp, type = 'l', main = "Figure.3c : Probability of Completing a
 
 ```
 
-Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .56. If a drive results in a touchdown, the average total number of plays it took is about 5.37. In all tests, the number of simulations is set equal to 10,000. 
+Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .35. If a drive results in a touchdown, the average total number of plays it took is about 4.37. In all tests, the number of simulations is set equal to 10,000. 
 ```{r, echo = FALSE}
 state <- list()
 state$down <- 1 
@@ -268,6 +268,28 @@ plays_cnt/length(t_plays)
 
 The final change will revert back to using a Bernoulli distribution to select each play in the drive; however, we will weigh this distribution more unevenly than the original. Before, we used a .567 probability of choosing a run play (this number is based of background research on the average)
 
+
+
+
+```{r}
+x<-seq(0, 100, 1)
+p_comp_orig <- .97^(x)
+plot(x, p_comp_orig, type = 'l', main = 'Original Sim: Base = .97')
+
+x<-seq(0, 100, 1)
+p_comp1 <- .9^(x)
+plot(x, p_comp1, type = 'l', main = 'Base = .9')
+
+x<-seq(0, 100, 1)
+p_comp2 <- .8^(x)
+plot(x, p_comp2, type = 'l', main = 'Base = .8')
+
+
+i <- seq(0, 75, .1)
+plot(i, dlnorm(i, mean = log(10), sd = 1), type = "l", main = "Figure.3b : Pass Play Log - Normal PDF", lwd = 2, xlab = "", ylab = 'Density', xlim = c(0, 70))
+abline(v = log(12), col = 'red')
+
+```
 
 
 
