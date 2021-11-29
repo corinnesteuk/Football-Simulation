@@ -201,7 +201,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. 
+The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. The first number below is the probability of a touchdown with only pass plays, the second is the average number of plays it takes to get a touchdown.
 
 ```{r, echo = FALSE}
 play <- function() {
@@ -278,7 +278,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. 
+The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. The first number below is the probability of a touchdown with only run plays, the second is the average number of plays it takes to get a touchdown.
 ```{r, echo = FALSE}
 play_run <- function() {
    yardage <- round(rnorm(1, mean = 3, sd = 3))
