@@ -285,10 +285,6 @@ p_comp2 <- .8^(x)
 plot(x, p_comp2, type = 'l', main = 'Base = .8')
 
 
-i <- seq(0, 75, .1)
-plot(i, dlnorm(i, mean = log(10), sd = 1), type = "l", main = "Figure.3b : Pass Play Log - Normal PDF", lwd = 2, xlab = "", ylab = 'Density', xlim = c(0, 70))
-abline(v = log(12), col = 'red')
-
 ```
 
 
