@@ -383,13 +383,16 @@ emp.data
 ggplot(data = emp.data, aes(x = run_mean, y = prob_td, colour = pass_mean)) + geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Touchdown Probability Simulations") + 
   ylab("Touchown Probability") +
   xlab("Run Mean") +
-  scale_fill_discrete(name = "Pass Mean")
+  scale_shape_discrete(name = "Pass Completion Base")+
+  scale_color_discrete(name = "Pass Mean")
 
 
 ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) + 
   geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Average Play Count (Given TD) Simulations") + 
   ylab("Average Play Count")+
-  xlab("Run Mean") 
+  xlab("Run Mean") +
+  scale_shape_discrete(name = "Pass Completion Base")+
+  scale_color_discrete(name = "Pass Mean")
 
                                                                      
 
