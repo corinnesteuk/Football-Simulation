@@ -34,7 +34,7 @@ To begin, we sampled from a Bernoulli Distribution with probability of that a de
 
 ```{r, echo = FALSE}
 
-hist(replicate(1000, rbern(1, .567)), main = ' Figure.1 : Histogram of Decision Bermoulli', xlab = 'Decision (1 == Run Play)')
+hist(replicate(1000, rbern(1, .567)), main = ' Figure.1 : Histogram of Decision Bernoulli', xlab = 'Decision (1 == Run Play)')
 
 ```
 
@@ -67,7 +67,7 @@ plot(
 abline(v = 3, col = 'red')
 ```
 
-The pass play yardage is sampled from a log normal distribution with mean log(10) and standard deviation 1 (numbers are rounded to the nearest whole number). The spread and pdf are shown in Figures 3a and 3b, respectively. The yardage is then the exponent variable in an exponential distribution of find probability of success represented in Figure.3c. This probability is used as the parameter in a Bernoulli PDF to find whether the pass was completed or not. 
+The pass play yardage is sampled from a log normal distribution with mean log(10) and standard deviation 1 (numbers are rounded to the nearest whole number). The spread and pdf are shown in Figures 3a and 3b, respectively. The yardage is then the exponent variable in an exponential distribution to find the probability of success represented in Figure.3c. This probability is used as the parameter in a Bernoulli PDF to find whether the pass was completed or not. 
 
 ```{r, echo = FALSE}
 #Figure.3a
@@ -111,9 +111,6 @@ plot(
 )
 
 ```
-
-
-Using the original distributions and parameters, the probability to score a touchdown on a given drive is about .35. If a drive results in a touchdown, the average total number of plays it took is about 4.37. In all tests, the number of simulations is set equal to 10,000. 
 
 Using the original distributions and parameters, the probability to score a touchdown on a given drive is approximately .35. If a drive results in a touchdown, the average total number of plays it took is approximately 4.3. In all tests, the number of simulations is set equal to 10,000. 
 
@@ -204,7 +201,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. The first number below is the probability of a touchdown with only pass plays, which is approximately 0.55. The second number below is the average number of plays it takes to get a touchdown, which is approximately 5.4
+The first changes made were to simulate drives of only one type of play. First, we simulated the event that a drive only includes pass plays. The results did not change significantly from the original simulation. The first number below is the probability of a touchdown with only pass plays, which is approximately 0.55. The second number below is the average number of plays it takes it takes given they scored a touchdown, which is approximately 5.4. 
 
 ```{r, echo = FALSE}
 play <- function() {
@@ -281,7 +278,7 @@ plays_cnt / length(t_plays)
 
 ```
 
-The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. The first number below is the probability of a touchdown with only run plays, which is approximately 0.09. The second number below is the average number of plays it takes to get a touchdown, which is approximately 1.8.
+The next change was to simulate drives with only run plays. The probability significantly decreased making it very unlikely for a team to score a touchdown from only run plays. The first number below is the probability of a touchdown with only run plays, which is approximately 0.09. The second number below is the average number of plays it takes given they scored a touchdown, which is approximately 1.8.
 ```{r, echo = FALSE}
 play_run <- function() {
    yardage <- round(rnorm(1, mean = 3, sd = 3))
@@ -339,28 +336,30 @@ plays_cnt / length(t_plays)
 
 ```
 
-
-
-
-
+The next series of changes include changing the parameters of the distributions in the original simulation. First, we changed the base of a pass completion in the exponential distribution for the passing plays. As shown in Figure 3c, this base value is .97 in the original simulation, making smaller passes very likely and longer passes less likely. We then change the base to .95 and later to.9, as shown in Figures 4b and 4c, respectively. These values maintain the original idea, making smaller passes very likely and longer passes less likely, but drastically changes the completion probabilities for the longer passes. To exemplify this, a base of .97 for a 30-yard pass gives it a 0.40 probability of completion, as shown in our original simulation and in Figure 4a. A base of .95 for the same pass gives it a 0.21 probability of completion, as shown in Figure 4b. More drastically, base of .9 for the same pass gives it a 0.04 probability of completion, as shown in Figure 4c. Due to the exponential basis of the distribution, any slight change to the base value has an extreme change on the probability of the passing plays.  
 
 ```{r, echo = FALSE}
 x<-seq(0, 100, 1)
 p_comp_orig <- .97^(x)
-plot(x, p_comp_orig, type = 'l', main = 'Original Sim: Base = .97')
-
-x<-seq(0, 100, 1)
-p_comp1 <- .9^(x)
-plot(x, p_comp1, type = 'l', main = 'Base = .9')
+plot(x, p_comp_orig, type = 'l', main = 'Figure 4a: Original Sim: Base = .97')
 
 x<-seq(0, 100, 1)
 p_comp2 <- .95^(x)
-plot(x, p_comp2, type = 'l', main = 'Base = .8')
+plot(x, p_comp2, type = 'l', main = 'Figure 4b: Base = .95')
+
+x<-seq(0, 100, 1)
+p_comp1 <- .9^(x)
+plot(x, p_comp1, type = 'l', main = 'Figure 4c: Base = .9')
+
+
 
 
 ```
 
+We then changed two other parameter values in the original simulation, the mean in the normal distribution for running plays and the mean in the log-normal distribution for passing plays. The run mean takes on values 2, 3, and 4; as noted previously, a mean of 3 was in the original simulation study. The pass mean takes values log (5), log (10), and log (15) with the middle value, log (10), the original simulation parameter. Finally, the pass completion base that was originally set to .97 is also tested at values .9 and .95. Given the three parameter values for each three parameters, we ran twenty-seven different combinations in a series of simulations and recorded the probability to make a touchdown and the average number of plays given a touchdown was made. Again, all trials were simulated 10,000 times. The following data frame labeled Figure 5 shows the output of all the combinations and their results. The highest values for both probability and number of plays were recorded when the mean run was set to four and the pass completion base was set to .97. The different pass means in the log- normal distribution did not largely affect the outcome. Since this value only returns the number for yardage before knowledge if the pass was completed or not, the performance of this parameter makes sense. 
 
+
+**Figure 5**
 ```{r, echo = FALSE}
 
 library(ggplot2)
@@ -372,15 +371,20 @@ emp.data <- data.frame(
   p_comp_base = rep(c(rep(c(.97, .9, .95), 3)), 3),
   prob_td = c(0.3546, 0.0401, 0.18459, 0.3272, 0.0537, 0.2019, 0.364, 0.0319, 0.1729, 0.2063, 0.012, 0.0896, 0.1665, 0.0126, 0.0793, 0.2248, 0.0073, 0.0884, 0.5421, 0.1233, 0.3485, 0.5568, 0.1603, 0.3862, 0.5201, 0.0908, 0.3161),
   avrg_plays = c(4.3492, 0.6493, 2.5527, 4.6803, 0.957, 3.1313, 4.175, 0.4989, 2.1708, 2.3883, 0.1956, 1.1444, 2.3441, 0.2194, 1.1926, 2.3141, 0.1038, 1.0319, 6.6756, 0.1233, 4.8535, 7.8982, 2.733, 5.8579, 5.8742, 1.4446, 4.0751))
+
+
 emp.data
 
 ##Y axis is prob_td
 #X axis is run mean
 # color = pass mean
 # shape = p_comp_base
+```
 
+To graphically represent this data, the following plots, Figure 6a and 6b, depict the results found Figure 5. As the run mean increases along the x axis, both the touchdown probability and average play count generally increase as well. Although, the average play count (given a touchdown) does not increase as distinctly. The shapes of the points correspond to the different pass completion bases and the colors correspond to the different pass mean values as denoted to the legends to the right. At almost all instances, the blue or log (5) pass mean will have the slightly higher probability when keeping the other parameters constant in that set of simulations. Likewise, the square shaped points or the .97 pass completion base returns the highest results when keeping the other parameters constant.   
+```{r, echo = FALSE}
 
-ggplot(data = emp.data, aes(x = run_mean, y = prob_td, colour = pass_mean)) + geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Touchdown Probability Simulations") + 
+ggplot(data = emp.data, aes(x = run_mean, y = prob_td, colour = pass_mean)) + geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Figure 6a: Touchdown Probability Simulations") + 
   ylab("Touchown Probability") +
   xlab("Run Mean") +
   scale_shape_discrete(name = "Pass Completion Base")+
@@ -388,7 +392,7 @@ ggplot(data = emp.data, aes(x = run_mean, y = prob_td, colour = pass_mean)) + ge
 
 
 ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) + 
-  geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Average Play Count (Given TD) Simulations") + 
+  geom_point(aes(shape = factor(p_comp_base)))+ggtitle("Figure 6b: Average Play Count (Given TD) Simulations") + 
   ylab("Average Play Count")+
   xlab("Run Mean") +
   scale_shape_discrete(name = "Pass Completion Base")+
