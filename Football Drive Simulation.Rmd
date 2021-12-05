@@ -406,27 +406,17 @@ ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) +
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Conclusion
 
+In this project, we simulated a football drive that resulted in either a success (touchdown) or a failure (not traveling ten yards in four plays). The decision of the play as a run or pass was determined by a Bernoulli distribution. If the decision resulted in a running play, a negative or positive yardage was returned from a normal distribution. If the decision was a passing play, only a positive yardage was returned from a log normal distribution. These pass yardages were then assigned a probability of success through an exponential distribution. This was all simulated repeatedly until the team reached a touchdown or ran out of downs before a first down. Data analysis for the project was performed on the results of 10,000 simulations. Specifically, we looked at the probability of a touchdown and the average number of plays it took to reach a touchdown given a touchdown was made. We then changed various parameters of the distributions to assess how those probabilities were affected.  
 
+First, we simulated only run plays or only pass plays by getting rid of the decision Bernoulli distribution entirely. We found that pass plays are significantly more important for making a touchdown than run plays. Next, we changed the parameters of the running play normal distribution, passing play log normal distribution, and the pass completion exponential distribution, and then ran a series of 27 simulations with these new parameters. We found that the run mean and the pass completion base had the greatest effect on the results of the simulation. As we increased both parameters, the touchdown probability and average play count increased as well.  
+
+The assumptions established in the beginning limit the scope of this project to only focus on the offensive play. Realistically, the talent of the defense is extremely influential on the outcome of each drive. There is the probability that turnovers (fumbles or interceptions) will occur throughout a football game, which is not factored into this project. Likewise, many times, the offense chooses to use their last down to punt the ball to the defense, so the defense will start possession as far back as possible. Since this project starts all drives on the 25-yard-line and ran all fourth downs the same way as the first three downs, this also diverts the project slightly away from the full complexities of a football game. For the desired analysis of this project, however, these pitfalls do not discredit the interesting work found. The focus is to be able to represent drives and plays as probability distributions and how these distributions effect a drive’s outcome.  
+
+The project can act as a base to answer and investigate many future questions regarding a football game. For extended research possibilities, we would first relieve many of the assumptions that limit the project. In addition to accounting for turnovers, kickoffs and punts could be distributions that would change the starting point of each drive because this also greatly affects if the team reaches a touchdown or not. While the project is a very generalized representation of a football simulation, we could map this project to depict an actual football team using their team statistics. The results would delineate the specific team’s talent. The simulations then are able to predict their probability of success. Even diving more specific, one could describe positions and actual players as probability distributions as well. This would include gathering historical data about a given team and the player’s statistics using the current or previous seasons. With this information, the creation of a model can represent a team. One can assess how the team can achieve the most success (score the most touchdowns) given the team they are up against. Using simulation, this study has the possibility to turn into a data analytics investigation which then can be used to maximizing the number of successful drives. With more time and data on specific teams, this project could be the beginning of optimizing the probability a team will win any given football game.  
+
+ 
 
 ## Appendix
 
