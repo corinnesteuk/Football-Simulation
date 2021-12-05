@@ -201,5 +201,7 @@ ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) +
   scale_shape_discrete(name = "Pass Completion Base")+
   scale_color_discrete(name = "Pass Mean")
 
-                                                                     
-
+library(sportyR)                                                                    
+geom_football(league = "NFL")
+geom_football(league = "NCAA",  rotation_dir = "ccw")
+help(sportyR)
