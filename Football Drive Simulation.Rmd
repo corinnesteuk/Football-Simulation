@@ -431,7 +431,6 @@ ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) +
                     
 ```
 
-<<<<<<< HEAD
 ## Conclusion
 
 In this project, we simulated a football drive that resulted in either a success (touchdown) or a failure (not traveling ten yards in four plays). The decision of the play as a run or pass was determined by a Bernoulli distribution. If the decision resulted in a running play, a negative or positive yardage was returned from a normal distribution. If the decision was a passing play, only a positive yardage was returned from a log normal distribution. These pass yardages were then assigned a probability of success through an exponential distribution. This was all simulated repeatedly until the team reached a touchdown or ran out of downs before a first down. Data analysis for the project was performed on the results of 10,000 simulations. Specifically, we looked at the probability of a touchdown and the average number of plays it took to reach a touchdown given a touchdown was made. We then changed various parameters of the distributions to assess how those probabilities were affected.  
