@@ -441,28 +441,6 @@ The assumptions established in the beginning limit the scope of this project to 
 
 The project can act as a base to answer and investigate many future questions regarding a football game. For extended research possibilities, we would first relieve many of the assumptions that limit the project. In addition to accounting for turnovers, kickoffs and punts could be distributions that would change the starting point of each drive because this also greatly affects if the team reaches a touchdown or not. While the project is a very generalized representation of a football simulation, we could map this project to depict an actual football team using their team statistics. The results would delineate the specific team’s talent. The simulations then are able to predict their probability of success. Even diving more specific, one could describe positions and actual players as probability distributions as well. This would include gathering historical data about a given team and the player’s statistics using the current or previous seasons. With this information, the creation of a model can represent a team. One can assess how the team can achieve the most success (score the most touchdowns) given the team they are up against. Using simulation, this study has the possibility to turn into a data analytics investigation which then can be used to maximizing the number of successful drives. With more time and data on specific teams, this project could be the beginning of optimizing the probability a team will win any given football game.  
 
-<<<<<<< HEAD:Football Drive Simulation.Rmd
- 
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> e9accc2d58f2ebe5968837c6c0c5659cf085aa83
-## Conclusion
-
-
->>>>>>> 0b328e3c2301974b1d7e203cbed532888474f768:Original Simulation Stats & Graphs.Rmd
-
 ## Appendix
 
 **Football Field Image**
