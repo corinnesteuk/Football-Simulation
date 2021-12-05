@@ -431,23 +431,6 @@ ggplot(data = emp.data, aes(x = run_mean, y = avrg_plays, colour = pass_mean)) +
                     
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Conclusion
 
 
