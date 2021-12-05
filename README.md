@@ -1,2 +1,4 @@
 # Football-Simulation
 STAT321 - Modeling &amp; Simulation
+
+This project uses R studio to simulation a general football drive. Each play requires a choice of play (run or pass) which is represented with a Bernoulli random variable. From then, a run is represented with a normal distribution with both positive and negative values. A pass is represented first by a log normal distribution to dteremine yardage of pass and then an exponential distribution to determine probability of completion which is then the paramter of a Bernoulli random variable to decide if the pass was in fact completed. The drive simulates plays until either the team reaches a touchdown or uses all four downs before reaching the next first down. Drives are then simulated 10,000 times to determine probability of success (reaching a touchdown) and the average number of plays given they reach a touchdown. The parameters of the distributios are altered to assess their influence on these statistics. 
