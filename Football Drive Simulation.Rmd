@@ -30,7 +30,9 @@ If the decision is a passing play - that is, the Bernoulli distribution returns 
 
 A function titled “drive” encompasses a simulation of a series of plays until a success (touchdown) or failure (ran out of downs before a first down). Drive keeps track of the “state” elements and changes them as the drive continues. Drive will run until there is a success or failure, continuing as long as the downs count is less than or equal to 4 and the total yards are less than 75. The results of the play function are assigned to a variable named “yards,” which are added to the state elements “downyards” and “totyards” as the drive continues. Drive stops under 2 conditions only: 1) a touchdown, as in total yards reach or pass 75, or 2) a failure, as in 10 yards are not reached in the rotation of four plays. The project is the replication of the “drive” function many times for data analysis of the final results.  
 
-We decided to change various aspects of our project to see how the outcomes are affected. First, we simulated only running plays to see how the probability of a touchdown changes, and then did the same for passing plays. While unrealistic of a game of football, we were simply interested in the significance of one play over the other in the project. Next, we changed the mean and pase paramters of the run and pass distributions to assess their influence on the touchdown probability.   
+![Algorithm Flowchart](Flowchart.png)
+
+We decided to change various aspects of our project to see how the outcomes are affected. First, we simulated only running plays to see how the probability of a touchdown changes, and then did the same for passing plays. While unrealistic of a game of football, we were simply interested in the significance of one play over the other in the project. Next, we changed the mean and base parameters of the run and pass distributions to assess their influence on the touchdown probability.   
 
 ## Results
 
